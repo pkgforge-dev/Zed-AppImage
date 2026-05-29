@@ -15,7 +15,7 @@ export ZED_ALLOW_ROOT=true
 export STARTUPWMCLASS=dev.zed.Zed
 
 # Deploy dependencies
-quick-sharun ./zed.app/*/*
+LD_LIBRARY_PATH=./zed.app/lib quick-sharun ./zed.app/*/*
 ln -s bin ./AppDir/libexec
 
 # Additional changes can be done in between here
