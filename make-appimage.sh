@@ -3,16 +3,20 @@
 set -eu
 
 ARCH=$(uname -m)
-VERSION=$(pacman -Q PACKAGENAME | awk '{print $2; exit}') # example command to get version of application here
-export ARCH VERSION
+export ARCH
 export OUTPATH=./dist
 export ADD_HOOKS="self-updater.hook"
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
-export ICON=PATH_OR_URL_TO_ICON
-export DESKTOP=PATH_OR_URL_TO_DESKTOP_ENTRY
+export ICON="$PWD"/zed.app/share/icons/hicolor/512x512/apps/zed.png
+export DESKTOP="$PWD"/zed.app/share/applications/dev.zed.Zed.desktop
+export DEPLOY_VULKAN=1
+export URUNTIME_PRELOAD=1
+export ZED_ALLOW_ROOT=true
+export STARTUPWMCLASS=dev.zed.Zed
 
 # Deploy dependencies
-quick-sharun /PATH/TO/BINARY_AND_LIBRARIES_HERE
+quick-sharun ./zed.app/*/*
+ln -s bin ./AppDir/libexec
 
 # Additional changes can be done in between here
 
