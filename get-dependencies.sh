@@ -6,7 +6,7 @@ ARCH=$(uname -m)
 
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
-# pacman -Syu --noconfirm PACKAGESHERE
+pacman -Syu --noconfirm libmd libbsd
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
@@ -16,11 +16,12 @@ get-debloated-pkgs --add-common --prefer-nano
 #make-aur-package PACKAGENAME
 
 # If the application needs to be manually built that has to be done down here
+BINARY=https://github.com/zed-industries/zed/releases/latest/download/zed-linux-$ARCH.tar.gz
+if ! wget --retry-connrefused --tries=30 "$BINARY" 2>/tmp/download.log; then
+	cat /tmp/download.log
+	exit 1
+fi
+tar xfv ./zed-linux*.gz
+rm -f ./zed-linux*.gz
 
-# if you also have to make nightly releases check for DEVEL_RELEASE = 1
-#
-# if [ "${DEVEL_RELEASE-}" = 1 ]; then
-# 	nightly build steps
-# else
-# 	regular build steps
-# fi
+awk -F'/' '/Location:/{print $(NF-1); exit}' /tmp/download.log > ~/version
