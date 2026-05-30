@@ -18,7 +18,9 @@ export STARTUPWMCLASS=dev.zed.Zed
 LD_LIBRARY_PATH=./zed.app/lib quick-sharun ./zed.app/*/*
 ln -s bin ./AppDir/libexec
 
-# Additional changes can be done in between here
+cc -shared -fPIC -O2 -o ./AppDir/lib/execve-sharun-hack.so execve-sharun-hack.c -ldl
+echo 'execve-sharun-hack.so' >> ./AppDir/.preload
+echo 'export ANYLINUX_EXECVE_WRAP_PATHS="$DATADIR"' >> ./AppDir/bin/execve-wrap-path.hook
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
