@@ -15,7 +15,10 @@ export ZED_ALLOW_ROOT=true
 export STARTUPWMCLASS=dev.zed.Zed
 
 # Deploy dependencies
-LD_LIBRARY_PATH=./zed.app/lib quick-sharun ./zed.app/*/* /usr/bin/env
+LD_LIBRARY_PATH=./zed.app/lib quick-sharun \
+				./zed.app/*/* \
+				/usr/bin/env  \
+				/usr/lib/libstdc++.so*
 ln -s bin ./AppDir/libexec
 
 cc -shared -fPIC -O2 -o ./AppDir/lib/execve-sharun-hack.so execve-sharun-hack.c -ldl
